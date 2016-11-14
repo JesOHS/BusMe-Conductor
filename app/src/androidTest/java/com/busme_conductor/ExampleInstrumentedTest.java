@@ -1,4 +1,4 @@
-package com.example.jesohs.busme_conductor;
+package com.busme_conductor;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.jesohs.busme_conductor", appContext.getPackageName());
+        assertEquals("com.busme_conductor", appContext.getPackageName());
     }
 }

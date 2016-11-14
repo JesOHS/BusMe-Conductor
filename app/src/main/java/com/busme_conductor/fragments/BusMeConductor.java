@@ -1,4 +1,4 @@
-package com.example.jesohs.busme_conductor;
+package com.busme_conductor.fragments;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.location.Location;
 
+import com.busme_conductor.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

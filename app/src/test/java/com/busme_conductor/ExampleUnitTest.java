@@ -1,4 +1,4 @@
-package com.example.jesohs.busme_conductor;
+package com.busme_conductor;
 
 import org.junit.Test;
 
