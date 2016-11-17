@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-class ConexionBD {
+public class ConexionBD {
     /*
     * Pregunta si la instancia ya esta creada
     * para usar la misma y si no se crea
@@ -24,6 +24,11 @@ class ConexionBD {
         props.setProperty("user", "lhmukxzksrxdac");
         props.setProperty("password", "LD1-vOYp3VJ07QKfZ69UB0eXMm");
         props.setProperty("ssl", "true");
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         try {
             Connection conn = DriverManager.getConnection(url, props);
         } catch (SQLException e) {
