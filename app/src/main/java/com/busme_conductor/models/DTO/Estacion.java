@@ -3,7 +3,7 @@ package com.busme_conductor.models.DTO;
 import org.postgis.PGgeometry;
 
 public class Estacion {
-    String idEstacion;
+    int idEstacion;
     String idRuta;
     PGgeometry geom;
     int ordenEstacion;
@@ -16,7 +16,7 @@ public class Estacion {
         this.esTerminal = esTerminal;
     }
 
-    public Estacion(String idEstacion, String idRuta, PGgeometry geom, int ordenEstacion, boolean esTerminal) {
+    public Estacion(int idEstacion, String idRuta, PGgeometry geom, int ordenEstacion, boolean esTerminal) {
         this.idEstacion = idEstacion;
         this.idRuta = idRuta;
         this.geom = geom;
@@ -24,11 +24,11 @@ public class Estacion {
         this.esTerminal = esTerminal;
     }
 
-    public String getIdEstacion() {
+    public int getIdEstacion() {
         return idEstacion;
     }
 
-    public void setIdEstacion(String idEstacion) {
+    public void setIdEstacion(int idEstacion) {
         this.idEstacion = idEstacion;
     }
 
