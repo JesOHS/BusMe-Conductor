@@ -6,7 +6,6 @@ import com.busme_conductor.models.DTO.Camion;
 
 import org.postgis.PGgeometry;
 
-import java.io.CharArrayReader;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -106,7 +105,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
         ResultSet rs;
         ArrayList<Camion> camiones = new ArrayList<>();
         try {
-            ps = conexion.getConnection().prepareStatement(SQL_READ);
+            ps = conexion.getConnection().prepareStatement(SQL_READALL);
             rs = ps.executeQuery();
             while(rs.next()) {
                 camiones.add(new Camion(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), (PGgeometry)rs.getObject(5)));
