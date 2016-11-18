@@ -109,7 +109,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
             ps = conexion.getConnection().prepareStatement(SQL_READ);
             rs = ps.executeQuery();
             while(rs.next()) {
-                camiones.add(new Camion(rs.getString(1), rs.getInt(2), rs.getInt(3), (PGgeometry)rs.getObject(4)));
+                camiones.add(new Camion(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), (PGgeometry)rs.getObject(5)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
