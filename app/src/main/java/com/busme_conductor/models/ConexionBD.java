@@ -20,6 +20,7 @@ public class ConexionBD {
      */
     private ConexionBD() {
         String url = "jdbc:postgresql://ec2-23-23-226-24.compute-1.amazonaws.com/d7naf0g01olcpi";
+        Connection conn;
         Properties props = new Properties();
         props.setProperty("user", "lhmukxzksrxdac");
         props.setProperty("password", "LD1-vOYp3VJ07QKfZ69UB0eXMm");
@@ -30,7 +31,7 @@ public class ConexionBD {
             e.printStackTrace();
         }
         try {
-            Connection conn = DriverManager.getConnection(url, props);
+            conn = DriverManager.getConnection(url, props);
         } catch (SQLException e) {
             e.printStackTrace();
         }
