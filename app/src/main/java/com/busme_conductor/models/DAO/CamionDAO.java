@@ -90,7 +90,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
             ps.setString(1, key.toString());
             rs = ps.executeQuery();
             while(rs.next()) {
-                camion = new Camion(rs.getString(2), rs.getInt(3), rs.getInt(4), (PGgeometry)rs.getObject(5));
+                camion = new Camion(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), (PGgeometry)rs.getObject(5));
             }
         } catch (SQLException e) {
             e.printStackTrace();
