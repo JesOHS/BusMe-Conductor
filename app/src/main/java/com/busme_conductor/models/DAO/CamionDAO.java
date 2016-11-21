@@ -24,7 +24,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
     public boolean create(Camion t) {
         PreparedStatement ps;
         try {
-            ps = conexion.getConnection().prepareStatement(SQL_INSERT);
+            ps = conexion.getConexion().prepareStatement(SQL_INSERT);
             ps.setString(1, t.getIdRuta());
             ps.setString(2, t.getIdRuta());
             ps.setInt(3, t.getCapacidadMaxima());
@@ -36,7 +36,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            conexion.closeConnection();
+            conexion.cerrarConexion();
         }
         return false;
     }
@@ -45,7 +45,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
     public boolean delete(Object key) {
         PreparedStatement ps;
         try {
-            ps = conexion.getConnection().prepareStatement(SQL_DELETE);
+            ps = conexion.getConexion().prepareStatement(SQL_DELETE);
             ps.setString(1, key.toString());
             if(ps.executeUpdate() > 0) {
                 return true;
@@ -53,7 +53,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            conexion.closeConnection();
+            conexion.cerrarConexion();
         }
         return false;
     }
@@ -62,7 +62,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
     public boolean update(Camion t) {
         PreparedStatement ps;
         try {
-            ps = conexion.getConnection().prepareStatement(SQL_UPDATE);
+            ps = conexion.getConexion().prepareStatement(SQL_UPDATE);
             ps.setString(1, t.getIdRuta());
             ps.setInt(2, t.getCapacidadMaxima());
             ps.setInt(3, t.getAsientosDisponibles());
@@ -74,7 +74,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            conexion.closeConnection();
+            conexion.cerrarConexion();
         }
         return false;
     }
@@ -85,7 +85,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
         ResultSet rs;
         Camion camion = null;
         try {
-            ps = conexion.getConnection().prepareStatement(SQL_READ);
+            ps = conexion.getConexion().prepareStatement(SQL_READ);
             ps.setString(1, key.toString());
             rs = ps.executeQuery();
             while(rs.next()) {
@@ -94,7 +94,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            conexion.closeConnection();
+            conexion.cerrarConexion();
         }
         return camion;
     }
@@ -105,7 +105,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
         ResultSet rs;
         ArrayList<Camion> camiones = new ArrayList<>();
         try {
-            ps = conexion.getConnection().prepareStatement(SQL_READALL);
+            ps = conexion.getConexion().prepareStatement(SQL_READALL);
             rs = ps.executeQuery();
             while(rs.next()) {
                 camiones.add(new Camion(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), (PGgeometry)rs.getObject(5)));
@@ -113,7 +113,7 @@ public class CamionDAO implements ConsultasBD<Camion> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            conexion.closeConnection();
+            conexion.cerrarConexion();
         }
         return camiones;
     }
