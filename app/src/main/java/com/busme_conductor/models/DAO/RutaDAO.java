@@ -15,7 +15,7 @@ import java.util.List;
 public class RutaDAO implements ConsultasBD<Ruta> {
     private static final String SQL_INSERT = "INSERT INTO rutas(id_ruta, geom) VALUES (?, ?)";
     private static final String SQL_DELETE = "DELETE FROM rutas WHERE id_ruta = ?";
-    private static final String SQL_UPDATE = "UPDATE rutas SET id_ruta = ?, geom = ? WHERE id_ruta = ?";
+    private static final String SQL_UPDATE = "UPDATE rutas SET geom = ? WHERE id_ruta = ?";
     private static final String SQL_READ = "SELECT * FROM rutas WHERE id_ruta = ?";
     private static final String SQL_READALL = "SELECT * FROM rutas";
     private static final ConexionBD conexion = ConexionBD.connect();
@@ -60,12 +60,8 @@ public class RutaDAO implements ConsultasBD<Ruta> {
         PreparedStatement ps;
         try {
             ps = conexion.getConexion().prepareStatement(SQL_UPDATE);
-            ps.setString(1, t.getIdRuta());
-            /* Esto no funcionara posiblemente se tenga que modificar
-                la base de datos para agregar una columna donde venga la ruta
-             */
-            ps.setObject(2, t.getGeom());
-            ps.setString(3, t.getIdRuta());
+            ps.setObject(1, t.getGeom());
+            ps.setString(2, t.getIdRuta());
             if(ps.executeUpdate() > 0) {
                 return true;
             }
