@@ -1,5 +1,8 @@
 package com.busme_conductor.models;
 
+import android.os.StrictMode;
+import android.util.Log;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -20,19 +23,21 @@ public class ConexionBD {
      */
     private ConexionBD() {
         String url = "jdbc:postgresql://ec2-23-23-226-24.compute-1.amazonaws.com/d7naf0g01olcpi";
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         Properties props = new Properties();
         props.setProperty("user", "lhmukxzksrxdac");
         props.setProperty("password", "LD1-vOYp3VJ07QKfZ69UB0eXMm");
         props.setProperty("ssl", "true");
+        props.setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory");
         try {
             Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
             conexion = DriverManager.getConnection(url, props);
+            Log.i("DEBUG", "Conexion establecida");
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.i("DEBUG", e.getMessage());
+        } catch (ClassNotFoundException e) {
+            Log.i("DEBUG", e.getMessage());
         }
     }
 
@@ -43,8 +48,10 @@ public class ConexionBD {
      * el usuario que lo está usando
      */
     public synchronized static ConexionBD connect() {
+        Log.i("DEBUG", "Creando instancia...");
         if (instancia == null) {
             instancia = new ConexionBD();
+            Log.i("DEBUG", "Instancia creada");
         }
         return instancia;
     }
