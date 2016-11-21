@@ -49,13 +49,13 @@
         android:hint="Contraseña"/>
 
     <Button
-        android:id="@+id/ingresar"
+        android:id="@+id/btnIngresar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="login"
         android:text="Ingresar"
         android:layout_below="@+id/contrasenna"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
