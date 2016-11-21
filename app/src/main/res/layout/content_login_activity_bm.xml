@@ -16,9 +16,8 @@
 
 
     <EditText
-        android:id="@+id/camion"
+        android:id="@+id/edtcamion"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:hint="ID Unidad"
         android:focusable="true"
         android:layout_marginTop="46dp"
@@ -26,36 +25,42 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content" />
     <ImageView
         android:id="@+id/logo"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:src= "@mipmap/iconito"
+        android:layout_height="200dp"
+        android:layout_width="300dp"
+        android:src= "@mipmap/busme_logo"
         android:layout_centerHorizontal="true"/>
 
 
     <EditText
-        android:id="@+id/contrasenna"
+        android:id="@+id/edtcontrasenna"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:layout_below="@+id/camion"
+        android:layout_below="@+id/edtcamion"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/camion"
-        android:layout_alignEnd="@+id/camion"
+        android:layout_alignRight="@+id/edtcamion"
+        android:layout_alignEnd="@+id/edtcamion"
         android:hint="Contraseña"/>
 
     <Button
+
+
         android:id="@+id/btnIngresar"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="login"
         android:text="Ingresar"
-        android:layout_below="@+id/contrasenna"
-        android:layout_centerHorizontal="true" />
+
+        android:layout_below="@+id/edtcontrasenna"
+        android:layout_centerHorizontal="true"/>
+
 
 
 </RelativeLayout>
