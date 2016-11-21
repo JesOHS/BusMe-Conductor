@@ -1,13 +1,11 @@
 package com.busme_conductor.models.DAO;
 
+import android.util.Log;
+
 import com.busme_conductor.interfaces.ConsultasBD;
 import com.busme_conductor.models.ConexionBD;
 import com.busme_conductor.models.DTO.Registro;
-import com.busme_conductor.models.DTO.Ruta;
 
-import org.postgis.PGgeometry;
-
-import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,6 +17,7 @@ public class RegistroDAO implements ConsultasBD<Registro> {
     private static final String SQL_DELETE = "DELETE FROM registros WHERE id_unidad = ?";
     private static final String SQL_UPDATE = "UPDATE registros SET clave = ? WHERE id_unidad = ?";
     private static final String SQL_READ = "SELECT * FROM registros WHERE id_unidad = ?";
+    private static final String SQL_VALIDARLOGIN = "SELECT * FROM registros WHERE id_unidad = ? AND clave = ?";
     private static final String SQL_READALL = "SELECT * FROM registros";
     private static final ConexionBD conexion = ConexionBD.connect();
 
@@ -75,6 +74,7 @@ public class RegistroDAO implements ConsultasBD<Registro> {
         } finally {
             conexion.cerrarConexion();
         }
+        Log.i("DEBUG", "NO se encontro");
         return false;
     }
 
@@ -84,10 +84,34 @@ public class RegistroDAO implements ConsultasBD<Registro> {
         ResultSet rs;
         Registro registro = null;
         try {
+            Log.i("DEBUG", "" + (conexion.getConexion() == null));
             ps = conexion.getConexion().prepareStatement(SQL_READ);
             ps.setString(1, key.toString());
             rs = ps.executeQuery();
             while(rs.next()) {
+                registro = new Registro(rs.getString(1), rs.getString(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexion.cerrarConexion();
+        }
+        return registro;
+    }
+
+    public Registro read(String clave, String idUnidad) {
+        PreparedStatement ps;
+        ResultSet rs;
+        Registro registro = null;
+        try {
+            Log.i("DEBUG", "" + (conexion.getConexion() == null));
+            ps = conexion.getConexion().prepareStatement(SQL_VALIDARLOGIN);
+            ps.setString(1, idUnidad);
+            ps.setString(2, clave);
+            rs = ps.executeQuery();
+            Log.i("DEBUG", SQL_VALIDARLOGIN);
+            while(rs.next()) {
+                Log.i("DEBUG", "Se encontro");
                 registro = new Registro(rs.getString(1), rs.getString(2));
             }
         } catch (SQLException e) {
