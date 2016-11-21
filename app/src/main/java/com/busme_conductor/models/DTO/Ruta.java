@@ -1,22 +1,14 @@
 package com.busme_conductor.models.DTO;
 
-import com.busme_conductor.models.DAO.EstacionDAO;
-
-import java.util.List;
+import org.postgis.PGgeometry;
 
 public class Ruta {
     String idRuta;
-    List<Estacion> estaciones;
+    PGgeometry geom;
 
-    public Ruta(String idRuta) {
+    public Ruta(String idRuta, PGgeometry geom) {
         this.idRuta = idRuta;
-        EstacionDAO estacionDAO = new EstacionDAO();
-        estaciones = estacionDAO.obtenerEstacionesDeLaRuta(idRuta);
-    }
-
-    public Ruta(String idRuta, List<Estacion> estaciones) {
-        this.idRuta = idRuta;
-        this.estaciones = estaciones;
+        this.geom = geom;
     }
 
     public String getIdRuta() {
@@ -27,11 +19,12 @@ public class Ruta {
         this.idRuta = idRuta;
     }
 
-    public List<Estacion> getEstaciones() {
-        return estaciones;
+    public PGgeometry getGeom() {
+        return geom;
     }
 
-    public void setEstaciones(List<Estacion> estaciones) {
-        this.estaciones = estaciones;
+    public void setGeom(PGgeometry geom) {
+        this.geom = geom;
     }
+
 }

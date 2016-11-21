@@ -2,34 +2,33 @@ package com.busme_conductor.models.DAO;
 
 import com.busme_conductor.interfaces.ConsultasBD;
 import com.busme_conductor.models.ConexionBD;
-import com.busme_conductor.models.DTO.Camion;
+import com.busme_conductor.models.DTO.Registro;
+import com.busme_conductor.models.DTO.Ruta;
 
 import org.postgis.PGgeometry;
 
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CamionDAO implements ConsultasBD<Camion> {
-    private static final String SQL_INSERT = "INSERT INTO camiones(id_unidad, id_ruta, capacidad_max, asientos_disponibles, geom) VALUES(?, ?, ?, ?, ?)";
-    private static final String SQL_DELETE = "DELETE FROM camiones WHERE id_unidad = ?";
-    private static final String SQL_UPDATE = "UPDATE camiones SET id_ruta = ?, capacidad_max = ?, asientos_disponibles = ?, geom = ? WHERE id_unidad = ?";
-    private static final String SQL_READ = "SELECT * FROM camiones WHERE id_unidad = ?";
-    private static final String SQL_READALL = "SELECT * FROM camiones";
+public class RegistroDAO implements ConsultasBD<Registro> {
+    private static final String SQL_INSERT = "INSERT INTO registros(clave, id_unidad) VALUES (?, ?)";
+    private static final String SQL_DELETE = "DELETE FROM registros WHERE id_unidad = ?";
+    private static final String SQL_UPDATE = "UPDATE registros SET clave = ? WHERE id_unidad = ?";
+    private static final String SQL_READ = "SELECT * FROM registros WHERE id_unidad = ?";
+    private static final String SQL_READALL = "SELECT * FROM registros";
     private static final ConexionBD conexion = ConexionBD.connect();
 
     @Override
-    public boolean create(Camion t) {
+    public boolean create(Registro t) {
         PreparedStatement ps;
         try {
             ps = conexion.getConexion().prepareStatement(SQL_INSERT);
-            ps.setString(1, t.getIdRuta());
-            ps.setString(2, t.getIdRuta());
-            ps.setInt(3, t.getCapacidadMaxima());
-            ps.setInt(4, t.getAsientosDisponibles());
-            ps.setObject(5, t.getGeom());
+            ps.setString(1, t.getClave());
+            ps.setString(2, t.getId_unidad());
             if(ps.executeUpdate() > 0) {
                 return true;
             }
@@ -59,15 +58,15 @@ public class CamionDAO implements ConsultasBD<Camion> {
     }
 
     @Override
-    public boolean update(Camion t) {
+    public boolean update(Registro t) {
         PreparedStatement ps;
         try {
             ps = conexion.getConexion().prepareStatement(SQL_UPDATE);
-            ps.setString(1, t.getIdRuta());
-            ps.setInt(2, t.getCapacidadMaxima());
-            ps.setInt(3, t.getAsientosDisponibles());
-            ps.setObject(4, t.getGeom());
-            ps.setString(5, t.getIdCamion());
+            ps.setString(1, t.getClave());
+            /* Esto no funcionara posiblemente se tenga que modificar
+                la base de datos para agregar una columna donde venga la ruta
+             */
+            ps.setString(2, t.getId_unidad());
             if(ps.executeUpdate() > 0) {
                 return true;
             }
@@ -80,41 +79,41 @@ public class CamionDAO implements ConsultasBD<Camion> {
     }
 
     @Override
-    public Camion read(Object key) {
+    public Registro read(Object key) {
         PreparedStatement ps;
         ResultSet rs;
-        Camion camion = null;
+        Registro registro = null;
         try {
             ps = conexion.getConexion().prepareStatement(SQL_READ);
             ps.setString(1, key.toString());
             rs = ps.executeQuery();
             while(rs.next()) {
-                camion = new Camion(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), (PGgeometry)rs.getObject(5));
+                registro = new Registro(rs.getString(1), rs.getString(2));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             conexion.cerrarConexion();
         }
-        return camion;
+        return registro;
     }
 
     @Override
-    public List<Camion> readAll() {
+    public List<Registro> readAll() {
         PreparedStatement ps;
         ResultSet rs;
-        ArrayList<Camion> camiones = new ArrayList<>();
+        ArrayList<Registro> registros = new ArrayList<>();
         try {
             ps = conexion.getConexion().prepareStatement(SQL_READALL);
             rs = ps.executeQuery();
             while(rs.next()) {
-                camiones.add(new Camion(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), (PGgeometry)rs.getObject(5)));
+                registros.add(new Registro(rs.getString(1), rs.getString(2)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             conexion.cerrarConexion();
         }
-        return camiones;
+        return registros;
     }
 }
