@@ -11,8 +11,8 @@ public class ConexionBD {
     * para usar la misma y si no se crea
     * una nueva
     */
-    private static ConexionBD instance; // Singleton
-    private Connection cnn;
+    private static ConexionBD instancia; // Singleton
+    private Connection conexion;
 
     /*
      * Constructor privado
@@ -20,7 +20,6 @@ public class ConexionBD {
      */
     private ConexionBD() {
         String url = "jdbc:postgresql://ec2-23-23-226-24.compute-1.amazonaws.com/d7naf0g01olcpi";
-        Connection conn;
         Properties props = new Properties();
         props.setProperty("user", "lhmukxzksrxdac");
         props.setProperty("password", "LD1-vOYp3VJ07QKfZ69UB0eXMm");
@@ -31,7 +30,7 @@ public class ConexionBD {
             e.printStackTrace();
         }
         try {
-            conn = DriverManager.getConnection(url, props);
+            conexion = DriverManager.getConnection(url, props);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -44,18 +43,18 @@ public class ConexionBD {
      * el usuario que lo está usando
      */
     public synchronized static ConexionBD connect() {
-        if (instance == null) {
-            instance = new ConexionBD();
+        if (instancia == null) {
+            instancia = new ConexionBD();
         }
-        return instance;
+        return instancia;
     }
 
-    public Connection getConnection() {
-        return cnn;
+    public Connection getConexion() {
+        return conexion;
     }
 
-    public void closeConnection() {
-        instance = null;
+    public void cerrarConexion() {
+        instancia = null;
     }
 
 }
