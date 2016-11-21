@@ -31,7 +31,7 @@ public class LoginActivityBM extends AppCompatActivity {
         RegistroDAO registroDAO = new RegistroDAO();
         Log.i("DEBUG", "VAMO A VER en el metodo de login");
         Log.i("DEBUG", registroDAO.read("1234", "S-8253").toString());
-        if(edtCamion.getText().toString().equals("1") && edtContrasenna.getText().toString().equals("1")) {
+        if(registroDAO.read(edtContrasenna.getText().toString(),edtCamion.getText().toString())!=null) {
             Intent abrirMapa = new Intent(getApplicationContext(), BusMeConductor.class);
             startActivity(abrirMapa);
         }else{
