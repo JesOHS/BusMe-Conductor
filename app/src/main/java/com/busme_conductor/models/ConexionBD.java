@@ -33,7 +33,7 @@ public class ConexionBD {
         try {
             Class.forName("org.postgresql.Driver");
             conexion = DriverManager.getConnection(url, props);
-            Log.i("DEBUG", "Conexion establecida");
+            //((org.postgresql.PGConnection)conexion).addDataType("geometry",Class.forName("org.postgis.PGgeometry"));
         } catch (SQLException e) {
             Log.i("DEBUG", e.getMessage());
         } catch (ClassNotFoundException e) {
@@ -48,10 +48,8 @@ public class ConexionBD {
      * el usuario que lo está usando
      */
     public synchronized static ConexionBD connect() {
-        Log.i("DEBUG", "Creando instancia...");
         if (instancia == null) {
             instancia = new ConexionBD();
-            Log.i("DEBUG", "Instancia creada");
         }
         return instancia;
     }

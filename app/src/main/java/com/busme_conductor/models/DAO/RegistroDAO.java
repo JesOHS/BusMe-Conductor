@@ -104,15 +104,12 @@ public class RegistroDAO implements ConsultasBD<Registro> {
         ResultSet rs;
         Registro registro = null;
         try {
-            Log.i("DEBUG", "" + (conexion.getConexion() == null));
             ps = conexion.getConexion().prepareStatement(SQL_VALIDARLOGIN);
             ps.setString(1, idUnidad);
             ps.setString(2, clave);
             rs = ps.executeQuery();
-            Log.i("DEBUG", SQL_VALIDARLOGIN);
             while(rs.next()) {
-                Log.i("DEBUG", "Se encontro");
-                registro = new Registro(rs.getString(1), rs.getString(2));
+                registro = new Registro(rs.getString(2), rs.getString(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BusMe-Conductor</string>
     <string name="title_activity_bus_me_conductor">BusMe</string>
-    <string name="title_activity_login_bm">Sign in</string>
+    <string name="title_activity_login_bm">BusMe</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

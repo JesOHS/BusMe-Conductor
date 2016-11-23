@@ -16,7 +16,7 @@
 
 
     <EditText
-        android:id="@+id/edtcamion"
+        android:id="@+id/edtCamion"
         android:layout_width="wrap_content"
         android:hint="ID Unidad"
         android:focusable="true"
@@ -26,7 +26,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="S-8253" />
     <ImageView
         android:id="@+id/logo"
         android:layout_height="200dp"
@@ -36,17 +38,18 @@
 
 
     <EditText
-        android:id="@+id/edtcontrasenna"
+        android:id="@+id/edtContrasenna"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:layout_below="@+id/edtcamion"
+        android:layout_below="@+id/edtCamion"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/edtcamion"
-        android:layout_alignEnd="@+id/edtcamion"
-        android:hint="Contraseña"/>
+        android:layout_alignRight="@+id/edtCamion"
+        android:layout_alignEnd="@+id/edtCamion"
+        android:hint="Contraseña"
+        android:maxLines="1" />
 
     <Button
 
@@ -58,7 +61,7 @@
         android:onClick="login"
         android:text="Ingresar"
 
-        android:layout_below="@+id/edtcontrasenna"
+        android:layout_below="@+id/edtContrasenna"
         android:layout_centerHorizontal="true"/>
 
 
