@@ -1,5 +1,7 @@
 package com.busme_conductor.models.DAO;
 
+import android.util.Log;
+
 import com.busme_conductor.interfaces.ConsultasBD;
 import com.busme_conductor.models.ConexionBD;
 import com.busme_conductor.models.DTO.Camion;
