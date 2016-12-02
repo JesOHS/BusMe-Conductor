@@ -1,10 +1,8 @@
-package com.busme_conductor.models.DAO;
-
-import android.util.Log;
+package com.busme_conductor.modelos.DAO;
 
 import com.busme_conductor.interfaces.ConsultasBD;
-import com.busme_conductor.models.ConexionBD;
-import com.busme_conductor.models.DTO.Camion;
+import com.busme_conductor.modelos.ConexionBD;
+import com.busme_conductor.modelos.DTO.Camion;
 
 import org.postgis.PGgeometry;
 
@@ -15,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CamionDAO implements ConsultasBD<Camion> {
-    private static final String SQL_INSERT = "INSERT INTO camiones(id_unidad, id_ruta, capacidad_max, asientos_disponibles, geom) VALUES(?, ?, ?, ?, ?)";
+    private static final String SQL_INSERT = "INSERT INTO camiones(id_unidad, id_ruta, recorriendo, capacidad_max, asientos_disponibles, geom) VALUES(?, ?, ?, ?, ?, ?);";
     private static final String SQL_DELETE = "DELETE FROM camiones WHERE id_unidad = ?";
-    private static final String SQL_UPDATE = "UPDATE camiones SET id_ruta = ?, capacidad_max = ?, asientos_disponibles = ?, geom = ? WHERE id_unidad = ?";
-    private static final String SQL_READ = "SELECT * FROM camiones WHERE id_unidad = ?";
-    private static final String SQL_READALL = "SELECT * FROM camiones";
+    private static final String SQL_UPDATE = "UPDATE camiones SET id_ruta = ?, recorriendo = ?, capacidad_max = ?, asientos_disponibles = ?, geom = ? WHERE id_unidad = ?;";
+    private static final String SQL_OBTENERCAMION = "SELECT * FROM camiones WHERE id_unidad = ?;";
+    private static final String SQL_READALL = "SELECT * FROM camiones;";
+    private static final String SQL_OBTENERCAMIONES_DE_LA_RUTA_CON_DIRECCION = "SELECT * FROM camiones WHERE id_ruta = ? AND recorriendo = ?;";
     private static final ConexionBD conexion = ConexionBD.connect();
 
     @Override
@@ -29,9 +28,10 @@ public class CamionDAO implements ConsultasBD<Camion> {
             ps = conexion.getConexion().prepareStatement(SQL_INSERT);
             ps.setString(1, t.getIdRuta());
             ps.setString(2, t.getIdRuta());
-            ps.setInt(3, t.getCapacidadMaxima());
-            ps.setInt(4, t.getAsientosDisponibles());
-            ps.setObject(5, t.getGeom());
+            ps.setString(2, t.getRecorriendo());
+            ps.setInt(4, t.getCapacidadMaxima());
+            ps.setInt(5, t.getAsientosDisponibles());
+            ps.setObject(6, t.getGeom());
             if(ps.executeUpdate() > 0) {
                 return true;
             }
@@ -66,10 +66,11 @@ public class CamionDAO implements ConsultasBD<Camion> {
         try {
             ps = conexion.getConexion().prepareStatement(SQL_UPDATE);
             ps.setString(1, t.getIdRuta());
-            ps.setInt(2, t.getCapacidadMaxima());
-            ps.setInt(3, t.getAsientosDisponibles());
-            ps.setObject(4, t.getGeom());
-            ps.setString(5, t.getIdCamion());
+            ps.setString(2, t.getRecorriendo());
+            ps.setInt(3, t.getCapacidadMaxima());
+            ps.setInt(4, t.getAsientosDisponibles());
+            ps.setObject(5, t.getGeom());
+            ps.setString(6, t.getIdCamion());
             if(ps.executeUpdate() > 0) {
                 return true;
             }
@@ -87,11 +88,13 @@ public class CamionDAO implements ConsultasBD<Camion> {
         ResultSet rs;
         Camion camion = null;
         try {
-            ps = conexion.getConexion().prepareStatement(SQL_READ);
+            ps = conexion.getConexion().prepareStatement(SQL_OBTENERCAMION);
             ps.setString(1, key.toString());
             rs = ps.executeQuery();
             while(rs.next()) {
-                camion = new Camion(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), (PGgeometry)rs.getObject(5));
+                camion = new Camion(rs.getString("id_unidad"), rs.getString("id_ruta"),
+                        rs.getString("recorriendo"), rs.getInt("capacidad_max"),
+                        rs.getInt("asientos_disponibles"), (PGgeometry)rs.getObject("geom"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -110,7 +113,9 @@ public class CamionDAO implements ConsultasBD<Camion> {
             ps = conexion.getConexion().prepareStatement(SQL_READALL);
             rs = ps.executeQuery();
             while(rs.next()) {
-                camiones.add(new Camion(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), (PGgeometry)rs.getObject(5)));
+                camiones.add(new Camion(rs.getString("id_unidad"), rs.getString("id_ruta"),
+                        rs.getString("recorriendo"), rs.getInt("capacidad_max"),
+                        rs.getInt("asientos_disponibles"), (PGgeometry)rs.getObject("geom")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -119,4 +124,26 @@ public class CamionDAO implements ConsultasBD<Camion> {
         }
         return camiones;
     }
+
+    public List<Camion> obtenerCamionesDeLaRuta(Object key, String recorriendo) {
+        PreparedStatement ps;
+        ResultSet rs;
+        ArrayList<Camion> camiones = new ArrayList<>();
+        try {
+            ps = conexion.getConexion().prepareStatement(SQL_OBTENERCAMIONES_DE_LA_RUTA_CON_DIRECCION);
+            ps.setString(1, key.toString());
+            ps.setString(2, recorriendo);
+            rs = ps.executeQuery();
+            while(rs.next()) {
+                camiones.add(new Camion(rs.getString("id_unidad"), rs.getString("id_ruta"), rs.getString("recorriendo"), rs.getInt("capacidad_max"), rs.getInt("asientos_disponibles"), (PGgeometry)rs.getObject("geom")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexion.cerrarConexion();
+        }
+        return camiones;
+    }
+
 }
+

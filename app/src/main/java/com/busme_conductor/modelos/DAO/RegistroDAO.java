@@ -1,10 +1,10 @@
-package com.busme_conductor.models.DAO;
+package com.busme_conductor.modelos.DAO;
 
 import android.util.Log;
 
 import com.busme_conductor.interfaces.ConsultasBD;
-import com.busme_conductor.models.ConexionBD;
-import com.busme_conductor.models.DTO.Registro;
+import com.busme_conductor.modelos.ConexionBD;
+import com.busme_conductor.modelos.DTO.Registro;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

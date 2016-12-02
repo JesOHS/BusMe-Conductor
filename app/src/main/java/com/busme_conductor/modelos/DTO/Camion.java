@@ -1,24 +1,27 @@
-package com.busme_conductor.models.DTO;
+package com.busme_conductor.modelos.DTO;
 
 import org.postgis.PGgeometry;
 
 public class Camion {
     String idCamion;
     String idRuta;
+    String recorriendo;
     int capacidadMaxima;
     int asientosDisponibles;
     PGgeometry geom;
 
-    public Camion(String idRuta, int capacidadMaxima, int asientosDisponibles, PGgeometry geom) {
+    public Camion(String idRuta, String recorriendo, int capacidadMaxima, int asientosDisponibles, PGgeometry geom) {
         this.idRuta = idRuta;
+        this.recorriendo = recorriendo;
         this.capacidadMaxima = capacidadMaxima;
         this.asientosDisponibles = asientosDisponibles;
         this.geom = geom;
     }
 
-    public Camion(String idCamion, String idRuta, int capacidadMaxima, int asientosDisponibles, PGgeometry geom) {
+    public Camion(String idCamion, String idRuta, String recorriendo, int capacidadMaxima, int asientosDisponibles, PGgeometry geom) {
         this.idCamion = idCamion;
         this.idRuta = idRuta;
+        this.recorriendo = recorriendo;
         this.capacidadMaxima = capacidadMaxima;
         this.asientosDisponibles = asientosDisponibles;
         this.geom = geom;
@@ -38,6 +41,14 @@ public class Camion {
 
     public void setIdRuta(String idRuta) {
         this.idRuta = idRuta;
+    }
+
+    public String getRecorriendo() {
+        return recorriendo;
+    }
+
+    public void setRecorriendo(String recorriendo) {
+        this.recorriendo = recorriendo;
     }
 
     public int getCapacidadMaxima() {
@@ -64,3 +75,4 @@ public class Camion {
         this.geom = geom;
     }
 }
+
