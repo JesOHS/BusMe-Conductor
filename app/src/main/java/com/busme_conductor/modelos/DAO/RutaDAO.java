@@ -1,10 +1,8 @@
-package com.busme_conductor.models.DAO;
+package com.busme_conductor.modelos.DAO;
 
 import com.busme_conductor.interfaces.ConsultasBD;
-import com.busme_conductor.models.ConexionBD;
-import com.busme_conductor.models.DTO.Ruta;
-
-import org.postgis.PGgeometry;
+import com.busme_conductor.modelos.ConexionBD;
+import com.busme_conductor.modelos.DTO.Ruta;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,11 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RutaDAO implements ConsultasBD<Ruta> {
-    private static final String SQL_INSERT = "INSERT INTO rutas(id_ruta, geom) VALUES (?, ?)";
-    private static final String SQL_DELETE = "DELETE FROM rutas WHERE id_ruta = ?";
-    private static final String SQL_UPDATE = "UPDATE rutas SET geom = ? WHERE id_ruta = ?";
-    private static final String SQL_READ = "SELECT * FROM rutas WHERE id_ruta = ?";
-    private static final String SQL_READALL = "SELECT * FROM rutas";
+    private static final String SQL_INSERT = "INSERT INTO rutas(id_ruta, polilinea1, polilinea2) VALUES (?, ?, ?);";
+    private static final String SQL_DELETE = "DELETE FROM rutas WHERE id_ruta = ?;";
+    private static final String SQL_UPDATE = "UPDATE rutas SET polilinea1 = ?, polilinea2 = ? WHERE id_ruta = ?;";
+    private static final String SQL_READ = "SELECT * FROM rutas WHERE id_ruta = ?;";
+    private static final String SQL_READALL = "SELECT * FROM rutas;";
+    private static final String SQL_OBTENER_ID_RUTAS = "SELECT id_ruta FROM rutas;";
+    private static final String SQL_OBTENER_POLILINEA1 = "SELECT polilinea1 FROM rutas WHERE (rutas.id_ruta = ?);";
+    private static final String SQL_OBTENER_POLILINEA2 = "SELECT polilinea2 FROM rutas WHERE (rutas.id_ruta = ?);";
     private static final ConexionBD conexion = ConexionBD.connect();
 
     @Override
@@ -26,7 +27,7 @@ public class RutaDAO implements ConsultasBD<Ruta> {
         try {
             ps = conexion.getConexion().prepareStatement(SQL_INSERT);
             ps.setString(1, t.getIdRuta());
-            ps.setObject(2, t.getGeom());
+            ps.setString(2, t.getIdRuta());
             if(ps.executeUpdate() > 0) {
                 return true;
             }
@@ -60,7 +61,7 @@ public class RutaDAO implements ConsultasBD<Ruta> {
         PreparedStatement ps;
         try {
             ps = conexion.getConexion().prepareStatement(SQL_UPDATE);
-            ps.setObject(1, t.getGeom());
+            ps.setString(1, t.getPolilinea1());
             ps.setString(2, t.getIdRuta());
             if(ps.executeUpdate() > 0) {
                 return true;
@@ -83,7 +84,7 @@ public class RutaDAO implements ConsultasBD<Ruta> {
             ps.setString(1, key.toString());
             rs = ps.executeQuery();
             while(rs.next()) {
-                ruta = new Ruta(rs.getString(1), (PGgeometry) rs.getObject(2));
+                ruta = new Ruta(rs.getString("id_ruta"), rs.getString("polilinea1"), rs.getString("polilinea2"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,7 +103,7 @@ public class RutaDAO implements ConsultasBD<Ruta> {
             ps = conexion.getConexion().prepareStatement(SQL_READALL);
             rs = ps.executeQuery();
             while(rs.next()) {
-                rutas.add(new Ruta(rs.getString(1), (PGgeometry) rs.getObject(2)));
+                rutas.add(new Ruta(rs.getString("id_ruta"), rs.getString("polilinea")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -110,6 +111,47 @@ public class RutaDAO implements ConsultasBD<Ruta> {
             conexion.cerrarConexion();
         }
         return rutas;
+    }
+
+    public List<String> obtenerTodasLasIDRutas() {
+        PreparedStatement ps;
+        ResultSet rs;
+        ArrayList<String> rutas = new ArrayList<>();
+        try {
+            ps = conexion.getConexion().prepareStatement(SQL_OBTENER_ID_RUTAS);
+            rs = ps.executeQuery();
+            while(rs.next()) {
+                rutas.add(rs.getString("id_ruta"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexion.cerrarConexion();
+        }
+        return rutas;
+    }
+
+    public String obtenerPolilinea(Object key, String recorriendo) {
+        PreparedStatement ps;
+        ResultSet rs;
+        String polilinea = "";
+        try {
+            if(recorriendo.equals("polilinea1")) {
+                ps = conexion.getConexion().prepareStatement(SQL_OBTENER_POLILINEA1);
+            } else {
+                ps = conexion.getConexion().prepareStatement(SQL_OBTENER_POLILINEA2);
+            }
+            ps.setString(1, key.toString());
+            rs = ps.executeQuery();
+            while(rs.next()) {
+                polilinea = rs.getString(recorriendo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexion.cerrarConexion();
+        }
+        return polilinea;
     }
 
 }

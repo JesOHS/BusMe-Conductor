@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import android.widget.EditText;
@@ -12,8 +11,8 @@ import android.widget.Toast;
 
 
 import com.busme_conductor.R;
-import com.busme_conductor.models.DAO.RegistroDAO;
-import com.busme_conductor.models.DTO.Registro;
+import com.busme_conductor.modelos.DAO.RegistroDAO;
+import com.busme_conductor.modelos.DTO.Registro;
 
 public class LoginActivityBM extends AppCompatActivity {
     EditText edtCamion, edtContrasenna;

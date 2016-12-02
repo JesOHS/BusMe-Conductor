@@ -1,4 +1,4 @@
-package com.busme_conductor.models;
+package com.busme_conductor.modelos;
 
 import android.os.StrictMode;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.busme_conductor.models.DTO;
+package com.busme_conductor.modelos.DTO;
 
 import android.os.Parcel;
 import android.os.Parcelable;
