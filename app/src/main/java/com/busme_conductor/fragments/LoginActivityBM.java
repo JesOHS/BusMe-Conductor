@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -16,11 +18,13 @@ import com.busme_conductor.modelos.DTO.Registro;
 
 public class LoginActivityBM extends AppCompatActivity {
     EditText edtCamion, edtContrasenna;
+    ImageView logo;
 
     public void login(View v) {
         RegistroDAO registroDAO = new RegistroDAO();
         edtCamion = (EditText)findViewById(R.id.edtCamion);
         edtContrasenna = (EditText)findViewById(R.id.edtContrasenna);
+
         String idCamion = edtCamion.getText().toString();
         String clave = edtContrasenna.getText().toString();
         Registro registro = registroDAO.read(clave, idCamion);
@@ -38,6 +42,7 @@ public class LoginActivityBM extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_bm);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        logo=(ImageView) findViewById(R.id.logo);
         setSupportActionBar(toolbar);
 
     }

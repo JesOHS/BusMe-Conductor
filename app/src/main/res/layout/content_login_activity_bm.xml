@@ -33,7 +33,7 @@
         android:id="@+id/logo"
         android:layout_height="200dp"
         android:layout_width="300dp"
-        android:src= "@mipmap/busme_logo"
+        android:src="@mipmap/busme_logo"
         android:layout_centerHorizontal="true"/>
 
 
