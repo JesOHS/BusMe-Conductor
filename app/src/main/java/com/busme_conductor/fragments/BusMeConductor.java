@@ -111,6 +111,7 @@ public class BusMeConductor extends FragmentActivity implements OnMapReadyCallba
             geom.getGeometry().setSrid(4326);
             // Modifica el geom(ubicacion) del camion
             camion.setGeom(geom);
+            camion.setRecorriendo(recorriendo);
             // Actualiza la base de datos
             camionDAO.update(camion);
             agregarPosicion(latitud, longitud);
